@@ -1,9 +1,7 @@
 <?php
 class World {
 	public $map = array();
-	public $roomList = array();
-	public $orbLocation = array();
-	public $staffLocation = array();
+	public $roomlist = array();
 	public $player;
 	public $inanimates = array();
 	public $monsters = array();
@@ -29,38 +27,40 @@ class World {
 		
 		unset ($this->roomlist[3]); // remove start location from list
 		shuffle($this->roomlist); // randomise room list
+		reset($this->roomlist);
 		
 		// get thing lists
 		$this->inanimates = parse_ini_file(TOSRES.'data/inanimates.ini', true);
 		$this->monsters = parse_ini_file(TOSRES.'data/monsters.ini', true);
-		//var_dump($this->monsters);
-		// FIX: having basically the same code three times is redundant, replace with a 'populate' function
 		
 		// add monsters
 		$monstnum = (int) count($this->roomlist) * $thingDensity['monsters'];
 		for ($i = 0; $i < $monstnum; $i++) {
-			$rc = $this->roomlist[$i];	//getNextRoomAddress ?
-			$room = $this->map[$rc['z']][$rc['x']][$rc['y']]; //getRoom
-			$this->addRThing($room, 'monsters');  // $room->add(monster)?
-			//$room->monsters[] = new Monster();
+			$room = $this->getNextRoom(); 
+			$this->addRThing($room, 'monsters'); 
 		} 
-		
+
+		// add pools
+
 		// add chests
-		/*$chestnum = (int) count($this->roomlist) * CHESTPERCENT;
-		for ($i; $i < ($monstnum + $chestnum); $i++) {
-			$rc = $this->roomlist[$i];
-			$room =& $this->map[$rc['z']][$rc['x']][$rc['y']];
-			$room->objects[] = new Chest();
-		} */
-		
-		/* add pools
-		$poolnum = (int) count($this->roomlist) * POOLPERCENT;
-		for ($i; $i < ($monstnum + $chestnum + $poolnum); $i++) {
-			$rc = $this->roomlist[$i];
-			$room =& $this->map[$rc['z']][$rc['x']][$rc['y']];
-			$room->features[] = new Pool();
-		} */
-		
+
+		// add sinkholes
+
+		// add merchants
+
+		// add warps
+		$warpnum = (int) count($this->roomlist) * $thingDensity['warps'];
+		for ($i = 0; $i < $warpnum; $i++) {
+			$room = $this->getNextRoom(); 
+			$room->isWarp = true; 
+		}
+
+		// add orb
+		$this->getNextRoom()->inanimates[] = new MacGuffin ('Orb');
+
+		// add staff
+		$this->getNextRoom()->inanimates[] = new MacGuffin ('Staff');
+
 		// add player
 		$this->player = new Player();
 	}
@@ -79,11 +79,16 @@ class World {
 		// pick something at random from the list
 		$nObj = $objList[array_rand($objList)];
 	
-		// build the constructor command
-		$build = '$room->'.$coll.'[] = new '.$nObj['type'].'($nObj);';
-	
-		//put the thing in the room
-		eval($build);
+		// dump it in the room
+		$room->$coll[] = new $nObj['type']($nObj);
+	}
+
+	//return the next room from the list
+	function getNextRoom () {
+		$rc = current($this->roomlist);
+		$room = $this->map[$rc['z']][$rc['x']][$rc['y']];
+		next($this->roomlist);
+		return $room;
 	}
 
 	
