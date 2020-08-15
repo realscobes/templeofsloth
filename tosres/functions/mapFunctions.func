@@ -1,0 +1,20 @@
+<?php
+
+function drawMap($map, $z, $px, $py) {
+        echo ("Floor $z: <br>");
+        for ($y = 0; $y < 8; $y++) {
+            echo ("<br>");
+
+            for ($x = 0; $x < 8; $x++) {
+                $room = $map[$z][$x][$y];
+                if ((($x == $px) && ($y == $py))) // check if player's room
+                    echo ('+ ');
+                elseif (!$room->discovered) {
+                    echo ('? ');
+                }
+                else                    
+                    echo ($room->mapSymbol.' ');
+            }
+        }
+
+}

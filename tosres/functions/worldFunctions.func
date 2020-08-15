@@ -1,0 +1,9 @@
+<?php
+
+function loadWorld () {
+    return unserialize($_SESSION['world']);
+}
+
+function saveWorld ($world) {
+    $_SESSION['world'] = serialize($world);
+}

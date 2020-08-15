@@ -12,8 +12,10 @@ class Player extends Entity {
 	public $posX;
 	public $posY;
 	public $posZ;
-    public $inventory = array();
+    public $inventory = array ();
     public $hasStaff;
+
+    public $actions = array ();
 	
 	function __construct () {
 		$this->posX = 3;
@@ -26,7 +28,18 @@ class Player extends Entity {
 		$this->valDex = 10;
 		$this->eqWeap = new Weapon(10, 10);
 		$this->eqArm = new Armour(10, 10);
-	}
+    }
+    
+    function teleport ($z, $y, $x) {
+        $this->posZ = $z;
+        $this->posX = $x;
+        $this->posY = $y;
+    }
+
+    function getStats () {
+        echo ("HP: $this->hitPoints - STR: $this->valStr - DEX: $this->valDex <br>");
+        echo ("Weapon: ".$this->eqWeap->name." - Armour: ".$this->eqArm->name);
+    }
 	
 }
 

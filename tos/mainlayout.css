@@ -1,0 +1,88 @@
+.grid-container {
+    position: absolute;
+    width: 70%;
+    height: 50%;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 3.5fr 1fr;
+    gap: 1px 1px;
+    grid-template-areas: "termArea mapInvArea" "actionArea actionArea";
+
+  }
+  
+  .termArea {
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
+    gap: 1px 1px;
+    grid-template-areas: ". . ." ". termView ." ". . .";
+    grid-area: termArea;
+  }
+  
+  .termView { grid-area: termView; }
+  
+  .mapInvArea {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 3fr 0.5fr 5fr 3fr;
+    gap: 1px 1px;
+    grid-template-areas: "mapArea" "." "invArea" "statsArea";
+    grid-area: mapInvArea;
+  }
+  
+  .mapArea { 
+    grid-area: mapArea;
+    font-family: monospace;
+  }
+  
+  .invArea {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    gap: 1px 1px;
+    grid-template-areas: ". ." ". ." ". ." ". ." ". ." ". ." ". ." ". ." ". ." ". ." ". .";
+    grid-area: invArea;
+  }
+  
+  .statsArea { grid-area: statsArea; }
+  
+  .actionArea {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr) repeat(5, 0.5fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 1px 1px;
+    grid-template-areas: ". . . . . . . . . . lookN . ." "doClimb doAttack doFlee doOpen doDrink doRead doTrade . . . goN . ." ". . . . . . . . lookW goW . goE lookE" ". . doReset . doSave . . . . . goS . ." ". . . . . . . . . . lookS . .";
+    grid-area: actionArea;
+  }
+  
+  .lookE { grid-area: lookE; }
+  
+  .goE { grid-area: goE; }
+  
+  .lookS { grid-area: lookS; }
+  
+  .goS { grid-area: goS; }
+  
+  .goN { grid-area: goN; }
+  
+  .lookN { grid-area: lookN; }
+  
+  .goW { grid-area: goW; }
+  
+  .lookW { grid-area: lookW; }
+  
+  .doAttack { grid-area: doAttack; }
+  
+  .doFlee { grid-area: doFlee; }
+  
+  .doOpen { grid-area: doOpen; }
+  
+  .doDrink { grid-area: doDrink; }
+  
+  .doRead { grid-area: doRead; }
+  
+  .doTrade { grid-area: doTrade; }
+  
+  .doClimb { grid-area: doClimb; }
+  
+  .doReset { grid-area: doReset; }
+  
+  .doSave { grid-area: doSave; }
