@@ -9,13 +9,13 @@ class World {
 	public $monsters = array();
 	
 	//generate 3d array made up of rooms, as well as sequential list
-	function __construct() {
+	function __construct($mapX, $mapY, $mapZ, $thingDensity) {
 		//floors
-		for ($z = 0; $z < MAPFLR; $z++) {
+		for ($z = 0; $z < $mapZ; $z++) {
 			//columns
-			for ($y = 0; $y < MAPY; $y++) {
+			for ($y = 0; $y < $mapY; $y++) {
 				//rows
-				for ($x = 0; $x < MAPX; $x++){
+				for ($x = 0; $x < $mapX; $x++){
 					$this->map[$z][$x][$y] = new Room;
 					$this->roomlist[] = array(
 						'z' => $z,
@@ -31,17 +31,17 @@ class World {
 		shuffle($this->roomlist); // randomise room list
 		
 		// get thing lists
-		$this->inanimates = parse_ini_file('./inanimates.ini', true);
-		$this->monsters = parse_ini_file('./monsters.ini', true);
+		$this->inanimates = parse_ini_file(TOSRES.'data/inanimates.ini', true);
+		$this->monsters = parse_ini_file(TOSRES.'data/monsters.ini', true);
 		//var_dump($this->monsters);
 		// FIX: having basically the same code three times is redundant, replace with a 'populate' function
 		
 		// add monsters
-		$monstnum = (int) count($this->roomlist) * MONSTPERCENT;
+		$monstnum = (int) count($this->roomlist) * $thingDensity['monsters'];
 		for ($i = 0; $i < $monstnum; $i++) {
-			$rc = $this->roomlist[$i];
-			$room = $this->map[$rc['z']][$rc['x']][$rc['y']];
-			$this->addRThing($room, 'monsters');
+			$rc = $this->roomlist[$i];	//getNextRoomAddress ?
+			$room = $this->map[$rc['z']][$rc['x']][$rc['y']]; //getRoom
+			$this->addRThing($room, 'monsters');  // $room->add(monster)?
 			//$room->monsters[] = new Monster();
 		} 
 		
@@ -85,5 +85,7 @@ class World {
 		//put the thing in the room
 		eval($build);
 	}
+
+	
 	
 }

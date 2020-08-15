@@ -1,0 +1,7 @@
+<?php
+
+function dumpData ($obj) {
+    echo('<pre>'.PHP_EOL);
+    var_dump ($obj);
+    echo ('</pre>'.PHP_EOL);
+}
